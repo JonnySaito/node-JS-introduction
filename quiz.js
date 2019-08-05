@@ -3,13 +3,13 @@ const process = require('process');
 const questions = [
   'What is 2 + 2?',
   'How many sides are there on an octagon?',
-  'How old is Matt?'
+  'How old is William Shatner?'
 ];
 
 const correctAnswers = [
   '4',
   '8',
-  '25'
+  '88'
 ];
 
 let usersAnswers = [];
