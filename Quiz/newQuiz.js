@@ -64,5 +64,5 @@ process.stdin.on('data', function(answer){
 // askQuestion(0);
 
 process.on('exit', function(){
-  process.stdout.write(`\nWell done, you got all the questions correct\n`);
+  process.stdout.write(`\nOK, that's it for all the questions.\nLet's see how you did...`);
 });
