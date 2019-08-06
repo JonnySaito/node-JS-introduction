@@ -26,14 +26,13 @@ function startMessage(){
 process.stdin.on('data', function(answer){
   let inputAnswer = answer.toString().trim();
 
-  if (fs.existsSync(`..${inputAnswer}.txt`)) {
+  if (fs.existsSync(`${inputAnswer}.txt`)) {
     console.log('Sorry, that name is taken.\nPlease use a different name.');
   } else {
       const data = `Quiz answers for ${inputAnswer}`;
       fs.writeFile(`${inputAnswer}.txt`, data, (err) => {
         if (err) throw err;
-        console.log('The file has been saved!');
-        process.exit();
+        console.log(`Cool cool cool. I made a txt file just for you, ${inputAnswer}!\n Now let's get quizzin'!`);
         askQuestion(0);
       });
     }
@@ -44,22 +43,21 @@ startMessage();
 
 function askQuestion(num){
   process.stdout.write(`${questions[num]}\n`);
+  process.stdin.on('data', function(answer){
+    let inputAnswer = answer.toString().trim();
+    let questionNum = userAnswers.length;
+    if(inputAnswer === correctAnswers[questionNum]){
+      userAnswers.push(inputAnswer);
+      if(userAnswers.length === questions.length){
+        process.exit();
+      } else {
+        askQuestion(userAnswers.length);
+      }
+    }
+  });
 }
 
-process.stdin.on('data', function(answer){
-  let inputAnswer = answer.toString().trim();
-  let questionNum = userAnswers.length;
-  if(inputAnswer === correctAnswers[questionNum]){
-    userAnswers.push(inputAnswer);
-    if(userAnswers.length === questions.length){
-      process.exit();
-    } else {
-      askQuestion(userAnswers.length);
-    }
-  } else {
 
-  }
-});
 
 // askQuestion(0);
 
