@@ -17,29 +17,42 @@ const correctAnswers = [
 
 let userAnswers = [];
 
-// let userNames = [];
+let userName;
+let validUserName = false;
 
-function startMessage(){
+askName = (){
   process.stdout.write('Welcome to my quiz.\n May I have your name?\n');
 }
 
-process.stdin.on('data', function(answer){
-  let inputAnswer = answer.toString().trim();
+askQuestion = (num) => {
+  process.stdout.write(`${questions[num]}\n`);
+}
 
-  if (fs.existsSync(`${inputAnswer}.txt`)) {
-    console.log('Sorry, that name is taken.\nPlease use a different name.');
-  } else {
+process.stdin.on('data', function(answer){
+  const inputAnswer = answer.toString().trim();
+
+  if(validUserName === false){
+    userName = inputAnswer;
+    const fileName = inputAnswer.replace(/\s/g, '').toLowerCase();
+    if(fs.existsSync(`./results/${fileName}.txt`)){
+      process.stdout.write(`Sorry, the name ${userName} is taken.\nPlease use a different name.`)
+    } else {
       const data = `Quiz answers for ${inputAnswer}`;
-      fs.writeFile(`${inputAnswer}.txt`, data, (err) => {
-        if (err) throw err;
-        console.log(`Cool cool cool. I made a txt file just for you, ${inputAnswer}!\n Now let's get quizzin'!`);
-        askQuestion(0);
-      });
+      fs.writeFile(`./results/${fileName}.txt`, data, (err) => {
+      if (err) throw err;
+      validUserName = true;
+      process.stdout.write(`\nCool cool cool. I made a file just for you, ${userName}. Now let's get quizzin'`);
+      askQuestion(0);
+      })
     }
+  } else{
+    // Run quiz here
+    console.log(inputAnswer);
+  }
 
 });
 
-startMessage();
+askName();
 
 function askQuestion(num){
   process.stdout.write(`${questions[num]}\n`);
