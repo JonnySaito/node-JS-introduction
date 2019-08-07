@@ -20,13 +20,13 @@ let userAnswers = [];
 let userName;
 let validUserName = false;
 
-askName = (){
+askName = () => {
   process.stdout.write('Welcome to my quiz.\n May I have your name?\n');
-}
+};
 
 askQuestion = (num) => {
   process.stdout.write(`${questions[num]}\n`);
-}
+};
 
 process.stdin.on('data', function(answer){
   const inputAnswer = answer.toString().trim();
@@ -55,25 +55,30 @@ process.stdin.on('data', function(answer){
 askName();
 
 function askQuestion(num){
-  process.stdout.write(`${questions[num]}\n`);
-  process.stdin.on('data', function(answer){
-    let inputAnswer = answer.toString().trim();
-    let questionNum = userAnswers.length;
-    if(inputAnswer === correctAnswers[questionNum]){
-      userAnswers.push(inputAnswer);
-      if(userAnswers.length === questions.length){
-        process.exit();
-      } else {
-        askQuestion(userAnswers.length);
-      }
+  process.stdout.write(`${questions[num]}\n`)
+};
+
+process.stdin.on('data', function(answer){
+  let inputAnswer = answer.toString().trim();
+  console.log('----------------');
+  console.log(inputAnswer);
+  userAnswers.push(inputAnswer);
+  if (usersAnswers.length === correctAnswers.length){
+   process.exit();
+  } else {
+   askQuestion(usersAnswers.length);
     }
-  });
-}
+});
 
-
-
-// askQuestion(0);
-
+askQuestion(0);
 process.on('exit', function(){
   process.stdout.write(`\nOK, that's it for all the questions.\nLet's see how you did...`);
+  console.log(usersAnswers);
+  for (var i = 0; i < usersAnswers.length; i++) {
+      if (usersAnswers[i] === correctAnswers[i]){
+        console.log(`Yay, you got question ${i + 1} correct!`);
+      } else {
+     console.log(`Boo, you got question ${i + 1} wrong!`);
+        }
+  }
 });
